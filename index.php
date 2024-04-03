@@ -39,7 +39,7 @@
                     </ul>
                 </div>
 
-                <div class="nav__toggle" id="nav-toggle">
+                <div class="" id="nav-toggle">
                     <i class='bx bx-grid-alt'></i>
                 </div>
 
