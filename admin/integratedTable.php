@@ -12,7 +12,22 @@ if (isset($_SESSION['id'])) {
 
 $folder = $_GET['folder'] ?? '';
 
-// echo "Folder : $folder";
+// if the selected folder is not subfolder, redirect the user on folderCreation page
+$query = "SELECT parent_id FROM fms_g14_folder WHERE id = $folder";
+$result = mysqli_query($con, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $parent_id = $row['parent_id'];
+
+    if ($parent_id == 0) {
+        header("Location: folderCreation.php");
+        exit(); 
+    }
+} else {
+    // Handle query error
+    echo "Error: " . mysqli_error($con);
+}
 
 ?>
 
