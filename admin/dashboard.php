@@ -147,7 +147,7 @@ if ($totalRequests != 0) {
                     </div>
             </div>
 
-            <!-- Insights -->
+            <!-- Insights 1 -->
             <ul class="insights">
                 <li>
                     <i class='bx bx-upload'></i>
@@ -155,31 +155,80 @@ if ($totalRequests != 0) {
                         <h3>
                         <?php echo $inboundPendingCount; ?> <!-- Print the count of pending inbound requests here -->
                         </h3>
-                        <p>Inbound Request</p>
+                        <p>Pending Inbound Request</p>
                     </span>
                 </li>
-                <li><i class='bx bx-download'></i>
+                <li>
+                    <i class='bx bx-download'></i>
                     <span class="info">
                         <h3>
                         <?php echo $outboundPendingCount; ?> <!-- Print the count of pending outbound requests here -->
                         </h3>
-                        <p>Outbound Request</p>
+                        <p>Pending Outbound Request</p>
                     </span>
                 </li>
-                <li><i class='bx bx-check'></i>
+                <li>
+                    <i class='bx bx-check'></i>
                     <span class="info">
                         <h3><?php echo $inboundAcceptedCount + $outboundAcceptedCount; ?></h3>
-                        <p>Accepted</p>
+                        <p>Total Accepted Files</p>
                     </span>
                 </li>
-                <li><i class='bx bx-x'></i>
+                <li>
+                    <i class='bx bx-x'></i>
                     <span class="info">
                         <h3><?php echo $inboundDeclinedCount + $outboundDeclinedCount; ?></h3>
-                        <p>Declined</p>
+                        <p>Total Declined Files</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-file'></i>
+                    <span class="info">
+                        <h3>
+                        <?php echo $inboundPendingCount; ?>
+                        </h3>
+                        <p>File Uploads Today</p>
                     </span>
                 </li>
             </ul>
-            <!-- End of Insights -->
+            <!-- End of Insights 1 -->
+
+            <!-- Insights 2 -->
+            <!-- <ul class="insights">
+                <li>
+                    <i class='bx bx-file'></i>
+                    <span class="info">
+                        <h3>
+                        <?php echo $inboundPendingCount; ?>
+                        </h3>
+                        <p>File Uploads Today</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-folder'></i>
+                    <span class="info">
+                        <h3>
+                        <?php echo $outboundPendingCount; ?>
+                        </h3>
+                        <p>Folders Created Today</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-folder'></i>
+                    <span class="info">
+                        <h3><?php echo $inboundAcceptedCount + $outboundAcceptedCount; ?></h3>
+                        <p>Sub-Folders Created Today</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-user'></i>
+                    <span class="info">
+                        <h3><?php echo $inboundDeclinedCount + $outboundDeclinedCount; ?></h3>
+                        <p>New Users Today</p>
+                    </span>
+                </li>
+            </ul> -->
+            <!-- End of Insights 2 -->
 
             <!-- Data Report -->
             <div class="bottom-data">
