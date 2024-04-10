@@ -10,6 +10,13 @@ if (isset($_SESSION['id'])) {
     exit; // Stop further execution
 }
 
+// Check if the 'folder' parameter exists in the URL
+if (isset($_GET['folder'])) {
+    $folderId = $_GET['folder'];
+    header("Location: integratedTable.php?folder=$folderId");
+    exit();
+}
+
 // Prepare a SELECT statement to fetch all folders created by the current user along with the associated username
 $sql = "SELECT f.id, f.file_name, f.created_at, u.username
         FROM fms_g14_folder as f
