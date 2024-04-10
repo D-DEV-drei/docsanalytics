@@ -171,47 +171,45 @@ mysqli_close($con);
         <div class="bottom-data container-fluid folder-containers">
 
        <div class="orders"  style="background-color: white !important">
-        <div class="header">
-            <!-- Folder  -->
-       <div class="folder-container" style="background-color: transparent">
-            <?php
-                $folder_count = count($folders);
-                foreach ($folders as $index => $folder):
-                    $folder_name = $folder['file_name'];
-                    if (strlen($folder_name) > 20) {
-                        $folder_name = substr($folder_name, 0, 20) . '...';
-                    }
-                    // Add a class to identify the last folder in each row
-                    $class = ($index + 1) % 3 == 0 || $index == $folder_count - 1 ? 'last-in-row' : '';
-            ?>
-                <a href="folderCreation.php?folder=<?php echo $folder['id']; ?>">
-                    <div class="folder <?php echo $class; ?>" data-folder-id="<?php echo $folder['id']; ?>">
-                        <i class='bx bx-folder'></i>
-                        <span title="<?php echo $folder['file_name']; ?>"><?php echo $folder_name; ?>111</span>
-                        <div class="ellipses-wrapper">
-                            <div class="ellipses-icon">
-                                <i class='bx bx-dots-vertical-rounded'></i>
+            <div class="header">
+                <!-- Folder  -->
+                <div class="folder-container" style="background-color: transparent">
+                    <?php
+                        $folder_count = count($folders);
+                        foreach ($folders as $index => $folder):
+                            $folder_name = $folder['file_name'];
+                            if (strlen($folder_name) > 20) {
+                                $folder_name = substr($folder_name, 0, 20) . '...';
+                            }
+                            // Add a class to identify the last folder in each row
+                            $class = ($index + 1) % 3 == 0 || $index == $folder_count - 1 ? 'last-in-row' : '';
+                    ?>
+                        <a href="folderCreation.php?folder=<?php echo $folder['id']; ?>">
+                            <div class="folder <?php echo $class; ?>" data-folder-id="<?php echo $folder['id']; ?>">
+                                <i class='bx bx-folder'></i>
+                                <span title="<?php echo $folder['file_name']; ?>"><?php echo $folder_name; ?>111</span>
+                                <div class="ellipses-wrapper">
+                                    <div class="ellipses-icon">
+                                        <i class='bx bx-dots-vertical-rounded'></i>
+                                    </div>
+                                    <div class="menu-options">
+                                        <ul>
+                                            <li><a href="#" class="renameOption"><i class='bx bx-rename'></i> Rename</a></li>
+                                            <li><a href="#" class="downloadOption"><i class='bx bx-download'></i> Download</a></li>
+                                            <li><a href="#" class="deleteOption"><i class='bx bx-trash'></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="menu-options">
-                                <ul>
-                                    <li><a href="#" class="renameOption"><i class='bx bx-rename'></i> Rename</a></li>
-                                    <li><a href="#" class="downloadOption"><i class='bx bx-download'></i> Download</a></li>
-                                    <li><a href="#" class="deleteOption"><i class='bx bx-trash'></i> Delete</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach;?>
-
+                        </a>
+                    <?php endforeach;?>
+                </div>
             </div>
         </div>
-       </div>
-</div>
 
         <!-- <h2>Files</h2> -->
         <!-- Files table -->
-        <!-- <div class="bottom-data files-containers">
+        <div class="bottom-data files-containers">
             <div class="orders">
                 <div class="header">
                     <i class='bx bx-receipt'></i>
@@ -265,49 +263,123 @@ mysqli_close($con);
             </div>
         </div>
 
-        <!-- Data table -->
-        <div class="bottom-data files-containers">
+        <!-- Environmental Sub Folder Table -->
+        <!-- <div class="bottom-data files-containers">
             <div class="orders">
                 <div class="header">
                     <i class='bx bx-receipt'></i>
-                    <h3>Deliveries</h3>
+                    <h3>Environmental Reports</h3>
                 </div>
                 <table id="request-table" class="files-table">
                     <thead>
                         <tr>
-                            <th>File</th>
-                            <th>Folder</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Action</th>
+                            <th>Trip ID</th>
+                            <th>Fuel Cost</th>
+                            <th>Fuel Usage</th>
+                            <th>Carbon Emission</th>
+                            <th>Rainfall Rate</th>
+                            <th>Current Weather</th>
+                            <th>Air Quality</th>
+                            <th>Wind Speed</th>
+                            <th>Wind Direction</th>
+                            <th>Wind Angle</th>
+                            <th>Temperature</th>
+                            <th>Humidity</th>
+                            <th>Visibility</th>
+                            <th>UV Index</th>
+                            <th>Solar Radiation</th>
+                            <th>Air Pressure</th>
+                            <th>Sea Level Pressure</th>
+                            <th>Alerts</th>
+                            <th>Last Update</th>
+                        </tr>
+                    </thead>
+                    <tbody id="files-table-body">
+                    <?php
+                        // $environmental_query = "SELECT sd_trip_id, sd_fuelcost, sd_fuelconsumption, sd_carbon_emission, sd_rainfall_rate, sd_current_weather, sd_air_quality, sd_wind_speed, sd_wind_direction, sd_wind_angle, sd_temperature, sd_humidity, sd_visibility, sd_uv_index, sd_solar_radiation, sd_pressure, sd_sealevel_pressure, alerts, sd_modified_date FROM fms_g11_sustainability_data";
+                        // $environmental_result = mysqli_query($con, $environmental_query);
+
+                        // while ($row = mysqli_fetch_assoc($environmental_result)) {
+                        //     echo "<tr>";
+                        //     echo "<td>" . $row['sd_trip_id'] . "</td>";
+                        //     echo "<td>" . $row['sd_fuelcost'] . "</td>";
+                        //     echo "<td>" . $row['sd_fuelconsumption'] . "</td>";
+                        //     echo "<td>" . $row['sd_carbon_emission'] . "</td>";
+                        //     echo "<td>" . $row['sd_rainfall_rate'] . "</td>";
+                        //     echo "<td>" . $row['sd_current_weather'] . "</td>";
+                        //     echo "<td>" . $row['sd_air_quality'] . "</td>";
+                        //     echo "<td>" . $row['sd_wind_speed'] . "</td>";
+                        //     echo "<td>" . $row['sd_wind_direction'] . "</td>";
+                        //     echo "<td>" . $row['sd_wind_angle'] . "</td>";
+                        //     echo "<td>" . $row['sd_temperature'] . "</td>";
+                        //     echo "<td>" . $row['sd_humidity'] . "</td>";
+                        //     echo "<td>" . $row['sd_visibility'] . "</td>";
+                        //     echo "<td>" . $row['sd_uv_index'] . "</td>";
+                        //     echo "<td>" . $row['sd_solar_radiation'] . "</td>";
+                        //     echo "<td>" . $row['sd_pressure'] . "</td>";
+                        //     echo "<td>" . $row['sd_sealevel_pressure'] . "</td>";
+                        //     echo "<td>" . $row['alerts'] . "</td>";
+                        //     echo "<td>" . $row['sd_modified_date'] . "</td>";
+                        //     echo "</tr>";
+                        // }
+
+                        // mysqli_free_result($environmental_result);
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div> -->
+
+        <!-- Delivery Sub Folder Table -->
+        <div class="bottom-data files-containers">
+            <div class="orders">
+                <div class="header">
+                    <i class='bx bx-receipt'></i>
+                    <h3>Delivery Reports</h3>
+                </div>
+                <table id="request-table" class="files-table">
+                    <thead>
+                        <tr>
+                            <th>Trip ID</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Driver</th>
+                            <th>Vehicle</th>
+                            <th>Status</th>
+                            <th>Trip Report</th>
+                            <th>Tracking Code</th>
+                            <th>Order Date</th>
                         </tr>
                     </thead>
                     <tbody id="files-table-body">
                         <?php
-                            foreach ($folders as $folder) {
-                                $folderId = $folder['id'];
+                        $delivery_query = "SELECT fms_g11_trips.*, fms_g12_drivers.d_first_name AS driver_name
+                        FROM fms_g11_trips
+                        JOIN fms_g12_drivers ON fms_g11_trips.t_driver = fms_g12_drivers.d_id";
+                        
+                        $delivery_result = mysqli_query($con, $delivery_query);
 
-                                $file_query = "SELECT f.name, f.description, fl.file_name, f.date_updated, f.file_path FROM fms_g14_files as f
-                                                                            JOIN fms_g14_inbound as i on i.files_id = f.id
-                                                                            join fms_g14_folder as fl on fl.id = f.folder_id
-                                                                            WHERE folder_id = ? AND i.status = 'Accepted'";
-                                $file_stmt = mysqli_prepare($con, $file_query);
-                                mysqli_stmt_bind_param($file_stmt, "i", $folderId);
-                                mysqli_stmt_execute($file_stmt);
-                                mysqli_stmt_bind_result($file_stmt, $file_name, $description, $folder_name, $date_updated, $file_path);
+                        // Fetching and displaying data
+                        while ($row = mysqli_fetch_assoc($delivery_result)) {
+                            echo "<tr>";
+                            echo "<td>" . $row['t_id'] . "</td>";
+                            echo "<td>" . $row['t_start_date'] . "</td>";
+                            echo "<td>" . $row['t_end_date'] . "</td>";
+                            echo "<td>" . $row['t_trip_fromlocation'] . "</td>";
+                            echo "<td>" . $row['t_trip_tolocation'] . "</td>";
+                            echo "<td>" . $row['driver_name'] . "</td>";
+                            echo "<td>" . $row['t_vehicle'] . "</td>";
+                            echo "<td>" . $row['t_trip_status'] . "</td>";
+                            echo "<td>" . $row['t_remarks'] . "</td>";
+                            echo "<td>" . $row['t_trackingcode'] . "</td>";
+                            echo "<td>" . $row['t_created_date'] . "</td>";
+                            echo "</tr>";
+                        }
 
-                                while (mysqli_stmt_fetch($file_stmt)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $file_name . "</td>";
-                                    echo "<td>" . $folder_name . "</td>";
-                                    echo "<td>" . $description . "</td>";
-                                    echo "<td>" . $date_updated . "</td>";
-                                    echo "<td><a href='" . $file_path . "' target='_blank'><i class='bx bx-show'></i></a> <a href='" . $file_path . "' download><i class='bx bx-download'></i></a></td>";
-                                    echo "</tr>";
-                                }
-
-                                mysqli_stmt_close($file_stmt);
-                            }
+                        // Free result set
+                        mysqli_free_result($delivery_result);
                         ?>
                     </tbody>
                 </table>
@@ -318,136 +390,8 @@ mysqli_close($con);
         <br>
         <br>
     </main>
-</div> -->
-
-<!-- Environmental Sub Folder Table -->
-<!-- <div class="bottom-data files-containers">
-    <div class="orders">
-        <div class="header">
-            <i class='bx bx-receipt'></i>
-            <h3>Environmental Reports</h3>
-        </div>
-        <table id="request-table" class="files-table">
-            <thead>
-                <tr>
-                    <th>Trip ID</th>
-                    <th>Fuel Cost</th>
-                    <th>Fuel Usage</th>
-                    <th>Carbon Emission</th>
-                    <th>Rainfall Rate</th>
-                    <th>Current Weather</th>
-                    <th>Air Quality</th>
-                    <th>Wind Speed</th>
-                    <th>Wind Direction</th>
-                    <th>Wind Angle</th>
-                    <th>Temperature</th>
-                    <th>Humidity</th>
-                    <th>Visibility</th>
-                    <th>UV Index</th>
-                    <th>Solar Radiation</th>
-                    <th>Air Pressure</th>
-                    <th>Sea Level Pressure</th>
-                    <th>Alerts</th>
-                    <th>Last Update</th>
-                </tr>
-            </thead>
-            <tbody id="files-table-body">
-                <?php
-                $environmental_query = "SELECT sd_trip_id, sd_fuelcost, sd_fuelconsumption, sd_carbon_emission, sd_rainfall_rate, sd_current_weather, sd_air_quality, sd_wind_speed, sd_wind_direction, sd_wind_angle, sd_temperature, sd_humidity, sd_visibility, sd_uv_index, sd_solar_radiation, sd_pressure, sd_sealevel_pressure, alerts, sd_modified_date FROM fms_g11_sustainability_data";
-                $environmental_result = mysqli_query($con, $environmental_query);
-
-                // Fetching and displaying data
-                while ($row = mysqli_fetch_assoc($environmental_result)) {
-                    echo "<tr>";
-                    echo "<td>" . $row['sd_trip_id'] . "</td>";
-                    echo "<td>" . $row['sd_fuelcost'] . "</td>";
-                    echo "<td>" . $row['sd_fuelconsumption'] . "</td>";
-                    echo "<td>" . $row['sd_carbon_emission'] . "</td>";
-                    echo "<td>" . $row['sd_rainfall_rate'] . "</td>";
-                    echo "<td>" . $row['sd_current_weather'] . "</td>";
-                    echo "<td>" . $row['sd_air_quality'] . "</td>";
-                    echo "<td>" . $row['sd_wind_speed'] . "</td>";
-                    echo "<td>" . $row['sd_wind_direction'] . "</td>";
-                    echo "<td>" . $row['sd_wind_angle'] . "</td>";
-                    echo "<td>" . $row['sd_temperature'] . "</td>";
-                    echo "<td>" . $row['sd_humidity'] . "</td>";
-                    echo "<td>" . $row['sd_visibility'] . "</td>";
-                    echo "<td>" . $row['sd_uv_index'] . "</td>";
-                    echo "<td>" . $row['sd_solar_radiation'] . "</td>";
-                    echo "<td>" . $row['sd_pressure'] . "</td>";
-                    echo "<td>" . $row['sd_sealevel_pressure'] . "</td>";
-                    echo "<td>" . $row['alerts'] . "</td>";
-                    echo "<td>" . $row['sd_modified_date'] . "</td>";
-                    echo "</tr>";
-                }
-
-                // Free result set
-                mysqli_free_result($environmental_result);
-                ?>
-            </tbody>
-        </table>
-    </div>
 </div>
-</main>
-</div> -->
 
-<!-- Delivery Sub Folder Table -->
-<div class="bottom-data files-containers">
-    <div class="orders">
-        <div class="header">
-            <i class='bx bx-receipt'></i>
-            <h3>Delivery Reports</h3>
-        </div>
-        <table id="request-table" class="files-table">
-            <thead>
-                <tr>
-                    <th>Trip ID</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Origin</th>
-                    <th>Destination</th>
-                    <th>Driver</th>
-                    <th>Vehicle</th>
-                    <th>Status</th>
-                    <th>Trip Report</th>
-                    <th>Tracking Code</th>
-                    <th>Order Date</th>
-                </tr>
-            </thead>
-            <tbody id="files-table-body">
-                <?php
-                $delivery_query = "SELECT fms_g11_trips.*, fms_g12_drivers.d_first_name AS driver_name
-                FROM fms_g11_trips
-                JOIN fms_g12_drivers ON fms_g11_trips.t_driver = fms_g12_drivers.d_id";
-                
-                $delivery_result = mysqli_query($con, $delivery_query);
-
-                // Fetching and displaying data
-                while ($row = mysqli_fetch_assoc($delivery_result)) {
-                    echo "<tr>";
-                    echo "<td>" . $row['t_id'] . "</td>";
-                    echo "<td>" . $row['t_start_date'] . "</td>";
-                    echo "<td>" . $row['t_end_date'] . "</td>";
-                    echo "<td>" . $row['t_trip_fromlocation'] . "</td>";
-                    echo "<td>" . $row['t_trip_tolocation'] . "</td>";
-                    echo "<td>" . $row['driver_name'] . "</td>";
-                    echo "<td>" . $row['t_vehicle'] . "</td>";
-                    echo "<td>" . $row['t_trip_status'] . "</td>";
-                    echo "<td>" . $row['t_remarks'] . "</td>";
-                    echo "<td>" . $row['t_trackingcode'] . "</td>";
-                    echo "<td>" . $row['t_created_date'] . "</td>";
-                    echo "</tr>";
-                }
-
-                // Free result set
-                mysqli_free_result($delivery_result);
-                ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-</main>
-</div>
 
 
 <!-- Rename Folder Modal -->
