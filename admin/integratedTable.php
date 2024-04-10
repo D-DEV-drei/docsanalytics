@@ -129,6 +129,7 @@ if ($result) {
                 </div>
             </div>
 
+            <!-- Sustainable Main Folder -->
             <!-- Environmental Sub Folder Table -->
             <?php
                 // change this according to folder_id
@@ -257,6 +258,73 @@ if ($result) {
 
                                 // Free result set
                                 mysqli_free_result($delivery_result);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php
+                } // End of if statement
+            ?>
+
+            <!-- Drivers Management Main Folder -->
+            <!-- Drivers Information Sub Folder Table -->
+             <?php
+                // change this according to folder_id
+                if ($folder == 31) {
+            ?>
+                <div class="bottom-data files-containers">
+                    <div class="orders">
+                        <div class="header">
+                            <i class='bx bx-receipt'></i>
+                            <h3>Drivers Reports</h3>
+                        </div>
+                        <table id="request-table" class="files-table">
+                            <thead>
+                                <tr>
+                                    <th>Driver ID</th>
+                                    <th>Email</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Address</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>License No.</th>
+                                    <th>License Expiration Date</th>
+                                    <th>Total Experience</th>
+                                    <th>DOJ</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="files-table-body">
+                                <?php
+                                $driver_query = "SELECT *
+                                FROM fms_g12_drivers";
+                                
+                                $driver_result = mysqli_query($con, $driver_query);
+
+                                // Fetching and displaying data
+                                while ($row = mysqli_fetch_assoc($driver_result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['d_id'] . "</td>";
+                                    echo "<td>" . $row['d_email'] . "</td>";
+                                    echo "<td>" . $row['d_first_name'] . "</td>";
+                                    echo "<td>" . $row['d_last_name'] . "</td>";
+                                    echo "<td>" . $row['d_mobile'] . "</td>";
+                                    echo "<td>" . $row['d_address'] . "</td>";
+                                    echo "<td>" . $row['d_age'] . "</td>";
+                                    echo "<td>" . $row['d_gender'] . "</td>";
+                                    echo "<td>" . $row['d_licenseno'] . "</td>";
+                                    echo "<td>" . $row['d_license_expdate'] . "</td>";
+                                    echo "<td>" . $row['d_total_exp'] . "</td>";
+                                    echo "<td>" . $row['d_doj'] . "</td>";
+                                    echo "<td>" . $row['d_created_date'] . "</td>";
+                                    echo "</tr>";
+                                }
+
+                                // Free result set
+                                mysqli_free_result($driver_result);
                                 ?>
                             </tbody>
                         </table>
