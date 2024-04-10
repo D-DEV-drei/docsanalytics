@@ -260,7 +260,7 @@ foreach ($folders as $folder) {
 </div> -->
 
 <!-- Environmental Sub Folder Table -->
-<div class="bottom-data files-containers">
+<!-- <div class="bottom-data files-containers">
     <div class="orders">
         <div class="header">
             <i class='bx bx-receipt'></i>
@@ -328,10 +328,10 @@ foreach ($folders as $folder) {
     </div>
 </div>
 </main>
-</div>
+</div> -->
 
 <!-- Delivery Sub Folder Table -->
-<!-- <div class="bottom-data files-containers">
+<div class="bottom-data files-containers">
     <div class="orders">
         <div class="header">
             <i class='bx bx-receipt'></i>
@@ -355,7 +355,10 @@ foreach ($folders as $folder) {
             </thead>
             <tbody id="files-table-body">
                 <?php
-                $delivery_query = "SELECT t_id, t_start_date, t_end_date, t_trip_fromlocation, t_trip_tolocation, t_driver, t_vehicle, t_trip_status, t_remarks, t_trackingcode, t_created_date FROM fms_g11_trips";
+                $delivery_query = "SELECT fms_g11_trips.*, fms_g12_drivers.d_first_name AS driver_name
+                FROM fms_g11_trips
+                JOIN fms_g12_drivers ON fms_g11_trips.t_driver = fms_g12_drivers.d_id";
+                
                 $delivery_result = mysqli_query($con, $delivery_query);
 
                 // Fetching and displaying data
@@ -366,7 +369,7 @@ foreach ($folders as $folder) {
                     echo "<td>" . $row['t_end_date'] . "</td>";
                     echo "<td>" . $row['t_trip_fromlocation'] . "</td>";
                     echo "<td>" . $row['t_trip_tolocation'] . "</td>";
-                    echo "<td>" . $row['t_driver'] . "</td>";
+                    echo "<td>" . $row['driver_name'] . "</td>";
                     echo "<td>" . $row['t_vehicle'] . "</td>";
                     echo "<td>" . $row['t_trip_status'] . "</td>";
                     echo "<td>" . $row['t_remarks'] . "</td>";
@@ -383,7 +386,7 @@ foreach ($folders as $folder) {
     </div>
 </div>
 </main>
-</div> -->
+</div>
 
 
 <!-- Rename Folder Modal -->
