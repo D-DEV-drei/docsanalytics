@@ -222,7 +222,7 @@ mysqli_close($con);
                     <h3>List of Files</h3>
 
                     <div class="right">
-                    <a id="view-integrated-data" href="folderCreation.php?folder=">
+                    <a id="view-integrated-data" href="folderCreation.php?folder=" style="display:none;">
                         <button class="btn btn-success">View Integrated Data</button>
                     </a>
                     </div>
@@ -590,6 +590,13 @@ $('.downloadOption').click(function(event) {
                     $(document).on("click", ".folder[data-folder-id]", function() {
                         handleFolderClick(this);
                     });
+                }
+
+                // Hide -view integrated data- button on parent folders
+                if (data.subfolders.length > 0) {
+                    $("#view-integrated-data").hide();
+                } else {
+                    $("#view-integrated-data").show();
                 }
             },
             error: function(xhr, status, error) {
