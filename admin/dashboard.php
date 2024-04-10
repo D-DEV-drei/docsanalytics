@@ -11,6 +11,7 @@ if (isset($_SESSION['id'])) {
     exit(); // Stop further execution
 }
 
+date_default_timezone_set('Asia/Manila');
 // SQL query to fetch total file uploads today
 // Get today's date
 $today = date("Y-m-d");
@@ -21,6 +22,36 @@ if ($resultTotalFiles) {
     $rowTotalFiles = mysqli_fetch_assoc($resultTotalFiles);
     $todayTotalFiles = $rowTotalFiles['total_files']; // Get the count of pending inbound requests
 }
+
+// Get the upload_dates for the past 7 days and format them
+$upload_dates = [];
+$upload_counts = [];
+for ($i = 0; $i < 7; $i++) {
+    $selector_date = date("Y-m-d", strtotime("-$i days"));
+    $formatted_selector_date = date("F j, Y (l)", strtotime("-$i days"));
+    $upload_dates[] = $formatted_selector_date;
+
+    // Query to count files uploaded on the current date
+    $sqlPastDays = "SELECT COUNT(*) AS total_files FROM fms_g14_files WHERE DATE(date_updated) = '$selector_date'";
+    $resultPastDays = mysqli_query($con, $sqlPastDays);
+
+    if ($resultPastDays) {
+        $rowPastDays = mysqli_fetch_assoc($resultPastDays);
+        $upload_counts[] = $rowPastDays["total_files"];
+    } else {
+        $upload_counts[] = 0;
+    }
+}
+
+// Create an array of objects for each date and count
+$PastDays = [];
+for ($i = 0; $i < 7; $i++) {
+    $PastDays[] = array("date" => $upload_dates[$i], "count" => $upload_counts[$i]);
+}
+
+// Convert the array to JSON format
+$json_PastDays = json_encode($PastDays);
+
 
 // SQL query to fetch the count of inbound requests with status 'pending'
 $sqlInboundPending = "SELECT COUNT(*) AS pending_count FROM fms_g14_inbound WHERE status = 'pending'";
@@ -243,16 +274,16 @@ if ($totalRequests != 0) {
 
             <!-- Data Report -->
             <div class="bottom-data">
-            <div class="orders">
-                <div class="header">
-                    <i class='bx bx-receipt'></i>
-                    <h3>Data Report</h3>
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-receipt'></i>
+                        <h3>Data Report</h3>
+                    </div>
+                    <!-- Bar Graph -->
+                    <div class="bar-graph">
+                        <canvas id="barChart"></canvas>
+                    </div>
                 </div>
-                <!-- Bar Graph -->
-                <div class="bar-graph">
-                    <canvas id="barChart"></canvas>
-                </div>
-            </div>
 
                 <div class="reminders">
                     <div class="header">
@@ -267,6 +298,23 @@ if ($totalRequests != 0) {
                 <!-- End of Reminders-->
             </div>
 
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <i class='bx bx-receipt'></i>
+                        <h3>File Uploads (Since Last 7 Days)</h3>
+                    </div>
+                    <!-- Bar Graph -->
+                    <div class="bar-graph">
+                        <canvas id="barChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
         </main>
 
     </div>
@@ -280,91 +328,120 @@ if ($totalRequests != 0) {
     <script>
         // Bar Chart
         var ctx = document.getElementById('barChart').getContext('2d');
-var barChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: <?php echo json_encode(array_keys($inboundMonthlyData)); ?>, // Use file names as labels
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode(array_keys($inboundMonthlyData)); ?>, // Use file names as labels
 
-        datasets: [{
-            label: 'Inbound',
-            data: <?php echo json_encode(array_values($inboundMonthlyData)); ?>,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Pink color for inbound
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Outbound',
-            data: <?php echo json_encode(array_values($outboundMonthlyData)); ?>,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Blue color for outbound
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 10 // Set the step size to 10
-                }
-            }
-        },
-        plugins: {
-            legend: {
-                display: true, // Display the legend
-                labels: {
-                    fontColor: 'black' // Set legend label color to black
-                }
-            }
-        }
-    }
-});
-
-
-
-        // Pie Chart
-var ctx2 = document.getElementById('pieChart').getContext('2d');
-var pieChart = new Chart(ctx2, {
-    type: 'pie',
-    data: {
-        labels: ['Pending', 'Accepted', 'Declined'], // Labels for different request statuses
-        datasets: [{
-            label: 'Request',
-            data: [
-                    <?php echo $pendingPercentage; ?>, // Total pending requests percentage
-                    <?php echo $acceptedPercentage; ?>, // Total accepted requests percentage
-                    <?php echo $declinedPercentage; ?> // Total declined requests percentage
-            ],
-            backgroundColor: [
-                'rgba(255, 206, 86, 0.2)', // Color for pending requests
-                'rgba(75, 192, 192, 0.2)', // Color for accepted requests
-                'rgba(255, 99, 132, 0.2)' // Color for declined requests
-            ],
-            borderColor: [
-                'rgba(255, 206, 86, 1)', // Border color for pending requests
-                'rgba(75, 192, 192, 1)', // Border color for accepted requests
-                'rgba(255, 99, 132, 1)' // Border color for declined requests
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        var label = context.label || '';
-                        if (label) {
-                            label += ': ';
+                datasets: [{
+                    label: 'Inbound',
+                    data: <?php echo json_encode(array_values($inboundMonthlyData)); ?>,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Pink color for inbound
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Outbound',
+                    data: <?php echo json_encode(array_values($outboundMonthlyData)); ?>,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Blue color for outbound
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 10 // Set the step size to 10
                         }
-                        label += context.parsed.toFixed(2) + '%';
-                        return label;
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true, // Display the legend
+                        labels: {
+                            fontColor: 'black' // Set legend label color to black
+                        }
                     }
                 }
             }
-        }
-    }
-});
+        });
+
+
+        // Pie Chart
+        var ctx2 = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['Pending', 'Accepted', 'Declined'], // Labels for different request statuses
+                datasets: [{
+                    label: 'Request',
+                    data: [
+                            <?php echo $pendingPercentage; ?>, // Total pending requests percentage
+                            <?php echo $acceptedPercentage; ?>, // Total accepted requests percentage
+                            <?php echo $declinedPercentage; ?> // Total declined requests percentage
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.2)', // Color for pending requests
+                        'rgba(75, 192, 192, 0.2)', // Color for accepted requests
+                        'rgba(255, 99, 132, 0.2)' // Color for declined requests
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)', // Border color for pending requests
+                        'rgba(75, 192, 192, 1)', // Border color for accepted requests
+                        'rgba(255, 99, 132, 1)' // Border color for declined requests
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.parsed.toFixed(2) + '%';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Bar Chart 2
+        // JSON data from PHP
+        var jsonData = <?php echo $json_PastDays; ?>;
+        // Sort the data by date
+        jsonData.sort((a, b) => new Date(a.date) - new Date(b.date));
+        var ctx2 = document.getElementById('barChart2').getContext('2d');
+        var barChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: jsonData.map(row => row.date), // Use dates as labels
+                datasets: [{
+                    label: 'Files uploaded',
+                    data: jsonData.map(row => row.count),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Blue color
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false, // Display the legend
+                        labels: {
+                            fontColor: 'black' // Set legend label color to black
+                        }
+                    }
+                }
+            }
+        });
 
     </script>
 
