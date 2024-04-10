@@ -171,38 +171,39 @@ mysqli_close($con);
         <div class="bottom-data container-fluid folder-containers">
 
        <div class="orders"  style="background-color: white !important">
-            <div class="header">
-                <!-- Folder  -->
-                <div class="folder-container" style="background-color: transparent">
-                    <?php
-                        $folder_count = count($folders);
-                        foreach ($folders as $index => $folder):
-                            $folder_name = $folder['file_name'];
-                            if (strlen($folder_name) > 20) {
-                                $folder_name = substr($folder_name, 0, 20) . '...';
-                            }
-                            // Add a class to identify the last folder in each row
-                            $class = ($index + 1) % 3 == 0 || $index == $folder_count - 1 ? 'last-in-row' : '';
-                    ?>
-                        <div class="folder <?php echo $class; ?>" data-folder-id="<?php echo $folder['id']; ?>">
-                            <i class='bx bx-folder'></i>
-                            <span title="<?php echo $folder['file_name']; ?>"><?php echo $folder_name; ?></span>
-                            <div class="ellipses-wrapper">
-                                <div class="ellipses-icon">
-                                    <i class='bx bx-dots-vertical-rounded'></i>
-                                </div>
-                                <div class="menu-options">
-                                    <ul>
-                                        <li><a href="#" class="renameOption"><i class='bx bx-rename'></i> Rename</a></li>
-                                        <li><a href="#" class="downloadOption"><i class='bx bx-download'></i> Download</a></li>
-                                        <li><a href="#" class="deleteOption"><i class='bx bx-trash'></i> Delete</a></li>
-                                    </ul>
-                                </div>
+        <div class="header">
+            <!-- Folder  -->
+            <div class="folder-container" style="background-color: transparent">
+                <?php
+                    $folder_count = count($folders);
+                    foreach ($folders as $index => $folder):
+                        $folder_name = $folder['file_name'];
+                        if (strlen($folder_name) > 20) {
+                            $folder_name = substr($folder_name, 0, 20) . '...';
+                        }
+                        // Add a class to identify the last folder in each row
+                        $class = ($index + 1) % 3 == 0 || $index == $folder_count - 1 ? 'last-in-row' : '';
+                ?>
+                    <div class="folder <?php echo $class; ?>" data-folder-id="<?php echo $folder['id']; ?>">
+                        <i class='bx bx-folder'></i>
+                        <span title="<?php echo $folder['file_name']; ?>"><?php echo $folder_name; ?></span>
+                        <div class="ellipses-wrapper">
+                            <div class="ellipses-icon">
+                                <i class='bx bx-dots-vertical-rounded'></i>
+                            </div>
+                            <div class="menu-options">
+                                <ul>
+                                    <li><a href="#" class="renameOption"><i class='bx bx-rename'></i> Rename</a></li>
+                                    <li><a href="#" class="downloadOption"><i class='bx bx-download'></i> Download</a></li>
+                                    <li><a href="#" class="deleteOption"><i class='bx bx-trash'></i> Delete</a></li>
+                                </ul>
                             </div>
                         </div>
-                    <?php endforeach;?>
-                </div>
+                    </div>
+                <?php endforeach;?>
             </div>
+        </div>
+        </div>
         </div>
 
         <!-- <h2>Files</h2> -->
