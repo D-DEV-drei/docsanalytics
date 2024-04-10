@@ -11,6 +11,17 @@ if (isset($_SESSION['id'])) {
     exit(); // Stop further execution
 }
 
+// SQL query to fetch total file uploads today
+// Get today's date
+$today = date("Y-m-d");
+$sqlTotalFiles = "SELECT COUNT(*) AS total_files FROM fms_g14_files WHERE DATE(date_updated) = '$today'";
+$resultTotalFiles = mysqli_query($con, $sqlTotalFiles);
+$todayTotalFiles = 0; // Default value
+if ($resultTotalFiles) {
+    $rowTotalFiles = mysqli_fetch_assoc($resultTotalFiles);
+    $todayTotalFiles = $rowTotalFiles['total_files']; // Get the count of pending inbound requests
+}
+
 // SQL query to fetch the count of inbound requests with status 'pending'
 $sqlInboundPending = "SELECT COUNT(*) AS pending_count FROM fms_g14_inbound WHERE status = 'pending'";
 $resultInboundPending = mysqli_query($con, $sqlInboundPending);
@@ -182,10 +193,10 @@ if ($totalRequests != 0) {
                     </span>
                 </li>
                 <li>
-                    <i class='bx bx-file'></i>
+                    <i class='bx bx-file' style="background-color:skyblue;"></i>
                     <span class="info">
                         <h3>
-                        <?php echo $inboundPendingCount; ?>
+                        <?php echo $todayTotalFiles; ?>
                         </h3>
                         <p>File Uploads Today</p>
                     </span>
