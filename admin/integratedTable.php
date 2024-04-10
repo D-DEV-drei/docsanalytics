@@ -115,7 +115,11 @@ $folder = $_GET['folder'] ?? '';
             </div>
 
             <!-- Environmental Sub Folder Table -->
-            <!-- <div class="bottom-data files-containers">
+            <?php
+                // change this according to folder_id
+                if ($folder == 29) {
+            ?>
+            <div class="bottom-data files-containers">
                 <div class="orders">
                     <div class="header">
                         <i class='bx bx-receipt'></i>
@@ -147,44 +151,47 @@ $folder = $_GET['folder'] ?? '';
                         </thead>
                         <tbody id="files-table-body">
                         <?php
-                            // $environmental_query = "SELECT sd_trip_id, sd_fuelcost, sd_fuelconsumption, sd_carbon_emission, sd_rainfall_rate, sd_current_weather, sd_air_quality, sd_wind_speed, sd_wind_direction, sd_wind_angle, sd_temperature, sd_humidity, sd_visibility, sd_uv_index, sd_solar_radiation, sd_pressure, sd_sealevel_pressure, alerts, sd_modified_date FROM fms_g11_sustainability_data";
-                            // $environmental_result = mysqli_query($con, $environmental_query);
+                            $environmental_query = "SELECT sd_trip_id, sd_fuelcost, sd_fuelconsumption, sd_carbon_emission, sd_rainfall_rate, sd_current_weather, sd_air_quality, sd_wind_speed, sd_wind_direction, sd_wind_angle, sd_temperature, sd_humidity, sd_visibility, sd_uv_index, sd_solar_radiation, sd_pressure, sd_sealevel_pressure, alerts, sd_modified_date FROM fms_g11_sustainability_data";
+                            $environmental_result = mysqli_query($con, $environmental_query);
 
-                            // while ($row = mysqli_fetch_assoc($environmental_result)) {
-                            //     echo "<tr>";
-                            //     echo "<td>" . $row['sd_trip_id'] . "</td>";
-                            //     echo "<td>" . $row['sd_fuelcost'] . "</td>";
-                            //     echo "<td>" . $row['sd_fuelconsumption'] . "</td>";
-                            //     echo "<td>" . $row['sd_carbon_emission'] . "</td>";
-                            //     echo "<td>" . $row['sd_rainfall_rate'] . "</td>";
-                            //     echo "<td>" . $row['sd_current_weather'] . "</td>";
-                            //     echo "<td>" . $row['sd_air_quality'] . "</td>";
-                            //     echo "<td>" . $row['sd_wind_speed'] . "</td>";
-                            //     echo "<td>" . $row['sd_wind_direction'] . "</td>";
-                            //     echo "<td>" . $row['sd_wind_angle'] . "</td>";
-                            //     echo "<td>" . $row['sd_temperature'] . "</td>";
-                            //     echo "<td>" . $row['sd_humidity'] . "</td>";
-                            //     echo "<td>" . $row['sd_visibility'] . "</td>";
-                            //     echo "<td>" . $row['sd_uv_index'] . "</td>";
-                            //     echo "<td>" . $row['sd_solar_radiation'] . "</td>";
-                            //     echo "<td>" . $row['sd_pressure'] . "</td>";
-                            //     echo "<td>" . $row['sd_sealevel_pressure'] . "</td>";
-                            //     echo "<td>" . $row['alerts'] . "</td>";
-                            //     echo "<td>" . $row['sd_modified_date'] . "</td>";
-                            //     echo "</tr>";
-                            // }
+                            while ($row = mysqli_fetch_assoc($environmental_result)) {
+                                echo "<tr>";
+                                echo "<td>" . $row['sd_trip_id'] . "</td>";
+                                echo "<td>" . $row['sd_fuelcost'] . "</td>";
+                                echo "<td>" . $row['sd_fuelconsumption'] . "</td>";
+                                echo "<td>" . $row['sd_carbon_emission'] . "</td>";
+                                echo "<td>" . $row['sd_rainfall_rate'] . "</td>";
+                                echo "<td>" . $row['sd_current_weather'] . "</td>";
+                                echo "<td>" . $row['sd_air_quality'] . "</td>";
+                                echo "<td>" . $row['sd_wind_speed'] . "</td>";
+                                echo "<td>" . $row['sd_wind_direction'] . "</td>";
+                                echo "<td>" . $row['sd_wind_angle'] . "</td>";
+                                echo "<td>" . $row['sd_temperature'] . "</td>";
+                                echo "<td>" . $row['sd_humidity'] . "</td>";
+                                echo "<td>" . $row['sd_visibility'] . "</td>";
+                                echo "<td>" . $row['sd_uv_index'] . "</td>";
+                                echo "<td>" . $row['sd_solar_radiation'] . "</td>";
+                                echo "<td>" . $row['sd_pressure'] . "</td>";
+                                echo "<td>" . $row['sd_sealevel_pressure'] . "</td>";
+                                echo "<td>" . $row['alerts'] . "</td>";
+                                echo "<td>" . $row['sd_modified_date'] . "</td>";
+                                echo "</tr>";
+                            }
 
-                            // mysqli_free_result($environmental_result);
+                            mysqli_free_result($environmental_result);
                         ?>
                         </tbody>
                     </table>
                 </div>
-            </div> -->
+            </div>
+            <?php
+                } // End of if statement
+            ?>
 
             <!-- Delivery Sub Folder Table -->
             <?php
                 // change this according to folder_id
-                if ($folder == 27) {
+                if ($folder == 30) {
             ?>
                 <div class="bottom-data files-containers">
                     <div class="orders">
