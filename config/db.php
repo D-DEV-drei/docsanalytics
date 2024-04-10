@@ -2,8 +2,8 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "dmpar_db";
-$port = 3308; // Specify the port number here
+$database = "sust_main";
+$port = 3306; // Specify the port number here
 
 // establish connection
 $con = mysqli_connect($host, $username, $password, $database, $port);
