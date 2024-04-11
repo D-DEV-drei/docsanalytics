@@ -1,6 +1,6 @@
 # docsanalytics db integration
 
-User Accounts for each corresponding sub system:
+# User Accounts for each corresponding sub system:
 
 User: OrderManagement 
 Email: ordermanagement@gmail.com
@@ -37,3 +37,27 @@ Pass: Supplier#kargada
 User: DriverManagement 
 Email: drivermanagement@gmail.com
 Pass: Driver#kargada
+
+# Main and Sub Folder Integration for other sub system:
+
+Order Management 
+
+*Invoice and Payment Management 
+        $Invoices
+	
+Freight Audit and Claims Management 
+
+*Sustainability and Environmental Impact  
+        $Environmental
+        $Delivery
+
+Shipment Execution and Tracking 
+
+Warehouse Management Integration
+
+Custom Compliance and Documentation
+
+Supplier and Vendor Collaboration 
+
+*Driver Management and Compliance
+        $Drivers Information
