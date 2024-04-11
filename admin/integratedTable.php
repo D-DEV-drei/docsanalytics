@@ -334,6 +334,63 @@ if ($result) {
                 } // End of if statement
             ?>
 
+            <!-- Drivers Management Main Folder -->
+            <!-- Drivers Information Sub Folder Table -->
+            <?php
+                // change this according to folder_id
+                if ($folder == 32) {
+            ?>
+                <div class="bottom-data files-containers">
+                    <div class="orders">
+                        <div class="header">
+                            <i class='bx bx-receipt'></i>
+                            <h3>Invoice Reports</h3>
+                        </div>
+                        <table id="request-table" class="files-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Invoice Number</th>
+                                    <th>Payment Method</th>
+                                    <th>Customer Name</th>
+                                    <th>Company Name</th>
+                                    <th>Carrier</th>
+                                    <th>Date Created</th>
+                                    <th>Date Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody id="files-table-body">
+                                <?php
+                                $invoice_query = "SELECT *
+                                FROM fms_g15_invoices";
+                                
+                                $invoice_result = mysqli_query($con, $invoice_query);
+
+                                // Fetching and displaying data
+                                while ($row = mysqli_fetch_assoc($invoice_result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['id'] . "</td>";
+                                    echo "<td>" . $row['invoice_number'] . "</td>";
+                                    echo "<td>" . $row['payment_method'] . "</td>";
+                                    echo "<td>" . $row['customer_name'] . "</td>";
+                                    echo "<td>" . $row['company_name'] . "</td>";
+                                    echo "<td>" . $row['carrier'] . "</td>";
+                                    echo "<td>" . $row['created_at'] . "</td>";
+                                    echo "<td>" . $row['updated_at'] . "</td>";
+                                    echo "</tr>";
+                                }
+
+                                // Free result set
+                                mysqli_free_result($invoice_result);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php
+                } // End of if statement
+            ?>
+
             <br>
         </main>
     </div>
