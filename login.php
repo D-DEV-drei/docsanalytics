@@ -15,7 +15,7 @@ if (isset($_SESSION['u'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./assets/css/login.css" />
-    <title>Sign in & Sign up Form</title>
+    <title>Sign in Form</title>
     <style>
       .forgot-password {
           text-align: right;
@@ -55,7 +55,7 @@ if (isset($_SESSION['u'])) {
             <button type='submit' name='login_btn' id="loginBtn" class='btn'>LOGIN</button>
           </form>
           <!-- form for sign up  -->
-          <form action="verify.php" method="post" class="sign-up-form">
+          <!-- <form action="verify.php" method="post" class="sign-up-form">
             <h2 class="title">Sign up</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -70,17 +70,17 @@ if (isset($_SESSION['u'])) {
               <input type="password" placeholder="Password" name="password" required/>
             </div>
             <button type='submit' name='register_btn' class='btn'>SIGN UP</button>
-          </form>
+          </form> -->
         </div>
       </div>
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>New here ?</h3>
+            <h3>KarGada</h3>
             <p>
-                Ready to ship with ease? Sign up now and experience seamless freight management!
+              Welcome aboard the kargada freight services! Join us and experience seamless shipping like never before.
             </p>
-            <button class="btn transparent" id="sign-up-btn">Sign up</button>
+            <!-- <button class="btn transparent" id="sign-up-btn">Sign up</button> -->
           </div>
           <img src="img/log.svg" class="image" alt="" />
         </div>
