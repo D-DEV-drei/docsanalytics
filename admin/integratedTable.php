@@ -391,6 +391,90 @@ if ($result) {
                 } // End of if statement
             ?>
 
+            <!-- Order Management Main Folder -->
+            <!--  Order Form Sub Folder Table -->
+            <?php
+                // change this according to folder_id
+                if ($folder == 36) {
+            ?>
+                <div class="bottom-data files-containers">
+                    <div class="orders">
+                        <div class="header">
+                            <i class='bx bx-receipt'></i>
+                            <h3>Order Reports</h3>
+                        </div>
+                        <table id="request-table" class="files-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Order ID</th>
+                                    <!-- <th>User ID</th> -->
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Item</th>
+                                    <th>Dimensions</th>
+                                    <th>Location From</th>
+                                    <!-- <th>Location To</th> -->
+                                    <th>DropOffWarehouse</th>
+                                    <th>Consignee Name</th>
+                                    <th>Receiver Contact</th>
+                                    <th>Receiver Address</th>
+                                    <th>Mode Selection</th>
+                                    <th>Delivery Date</th>
+                                    <th>Price</th>
+                                    <th>Fee</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Order Expiration Date</th>
+                                    <th>Load ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="files-table-body">
+                                <?php
+                                $order_form_query = "SELECT *
+                                FROM fms_g18_formdetails";
+                                
+                                $order_form_result = mysqli_query($con, $order_form_query);
+
+                                // Fetching and displaying data
+                                while ($row = mysqli_fetch_assoc($order_form_result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['id'] . "</td>";
+                                    echo "<td>" . $row['order_id'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . $row['lastname'] . "</td>";
+                                    echo "<td>" . $row['email'] . "</td>";
+                                    echo "<td>" . $row['contact'] . "</td>";
+                                    echo "<td>" . $row['item'] . "</td>";
+                                    echo "<td>" . $row['dimensions'] . "</td>";
+                                    echo "<td>" . $row['LocationFrom'] . "</td>";
+                                    echo "<td>" . $row['DropOffWarehouse'] . "</td>";
+                                    echo "<td>" . $row['consigneeName'] . "</td>";
+                                    echo "<td>" . $row['receiverContact'] . "</td>";
+                                    echo "<td>" . $row['receiveraddress'] . "</td>";
+                                    echo "<td>" . $row['modeSelection'] . "</td>";
+                                    echo "<td>" . $row['deliveryDate'] . "</td>";
+                                    echo "<td>" . $row['price'] . "</td>";
+                                    echo "<td>" . $row['totalAmount'] . "</td>";
+                                    echo "<td>" . $row['status'] . "</td>";
+                                    echo "<td>" . $row['order_expirationDate'] . "</td>";
+                                    echo "<td>" . $row['load_id'] . "</td>";
+                                    echo "</tr>";
+                                }
+
+                                // Free result set
+                                mysqli_free_result($order_form_result);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php
+                } // End of if statement
+            ?>
+
             <br>
         </main>
     </div>
