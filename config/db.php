@@ -1,12 +1,20 @@
 <?php
+// local
 $host = "localhost";
 $username = "root";
 $password = "";
 $database = "sust_main";
-$port = 3306; // Specify the port number here
+$port = 3306;
+
+// live
+// $host = "194.110.173.106";
+// $username = "sust_matthew";
+// $password = "qwe";
+// $database = "sust_main";
+// $port = 3306;
 
 // establish connection
-$con = mysqli_connect($host, $username, $password, $database, $port);
+$con = mysqli_connect($host, $username, $password, $database);
 
 //check connection
 if (!$con) {
