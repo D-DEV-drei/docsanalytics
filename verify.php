@@ -94,7 +94,7 @@ if (isset($_POST['register_btn'])) {
     $default_image_path = '../img/default-img.jpg';
 
     // Insert into user table
-    $query = "INSERT INTO users (username, email, password, verify_token, activate, role, image) VALUES (?, ?, ?, ?, 0, 0, ?)";
+    $query = "INSERT INTO fms_g14_users (username, email, password, verify_token, activate, role, image) VALUES (?, ?, ?, ?, 0, 0, ?)";
     $stmt = $con->prepare($query);
     $stmt->bind_param("sssss", $username, $email, $hashed_password, $verify_token, $default_image_path); // Default value of activate is 0, so no need to bind here
     $stmt->execute();

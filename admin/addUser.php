@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert data into database
-    $sql = "INSERT INTO users (username, email, password, created_at, role, image)
+    $sql = "INSERT INTO fms_g14_users (username, email, password, created_at, role, image)
             VALUES ('$username', '$email', '$password', NOW(), $userType, '$image')";
     if (mysqli_query($con, $sql)) {
         echo "User added successfully";

@@ -10,6 +10,13 @@ if (isset($_SESSION['id'])) {
     exit; // Stop further execution
 }
 
+// Check if the 'folder' parameter exists in the URL
+if (isset($_GET['folder'])) {
+    $folderId = $_GET['folder'];
+    header("Location: integratedTable.php?folder=$folderId");
+    exit();
+}
+
 // Prepare a SELECT statement to fetch all folders created by the current user along with the associated username
 $sql = "SELECT f.id, f.file_name, f.created_at, u.username
         FROM fms_g14_folder as f
@@ -173,39 +180,38 @@ mysqli_close($con);
        <div class="orders"  style="background-color: white !important">
         <div class="header">
             <!-- Folder  -->
-       <div class="folder-container" style="background-color: transparent">
-       <?php
-$folder_count = count($folders);
-foreach ($folders as $index => $folder):
-    $folder_name = $folder['file_name'];
-    if (strlen($folder_name) > 20) {
-        $folder_name = substr($folder_name, 0, 20) . '...';
-    }
-    // Add a class to identify the last folder in each row
-    $class = ($index + 1) % 3 == 0 || $index == $folder_count - 1 ? 'last-in-row' : '';
-    ?>
-                <div class="folder <?php echo $class; ?>" data-folder-id="<?php echo $folder['id']; ?>">
-                <i class='bx bx-folder'></i>
-                <span title="<?php echo $folder['file_name']; ?>"><?php echo $folder_name; ?></span>
-                <div class="ellipses-wrapper">
-                    <div class="ellipses-icon">
-                        <i class='bx bx-dots-vertical-rounded'></i>
+            <div class="folder-container" style="background-color: transparent">
+                <?php
+                    $folder_count = count($folders);
+                    foreach ($folders as $index => $folder):
+                        $folder_name = $folder['file_name'];
+                        if (strlen($folder_name) > 20) {
+                            $folder_name = substr($folder_name, 0, 20) . '...';
+                        }
+                        // Add a class to identify the last folder in each row
+                        $class = ($index + 1) % 3 == 0 || $index == $folder_count - 1 ? 'last-in-row' : '';
+                ?>
+                    <div class="folder <?php echo $class; ?>" data-folder-id="<?php echo $folder['id']; ?>">
+                        <i class='bx bx-folder'></i>
+                        <span title="<?php echo $folder['file_name']; ?>"><?php echo $folder_name; ?></span>
+                        <div class="ellipses-wrapper">
+                            <div class="ellipses-icon">
+                                <i class='bx bx-dots-vertical-rounded'></i>
+                            </div>
+                            <div class="menu-options">
+                                <ul>
+                                    <li><a href="#" class="renameOption"><i class='bx bx-rename'></i> Rename</a></li>
+                                    <li><a href="#" class="downloadOption"><i class='bx bx-download'></i> Download</a></li>
+                                    <li><a href="#" class="deleteOption"><i class='bx bx-trash'></i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="menu-options">
-                        <ul>
-                            <li><a href="#" class="renameOption"><i class='bx bx-rename'></i> Rename</a></li>
-                            <li><a href="#" class="downloadOption"><i class='bx bx-download'></i> Download</a></li>
-                            <li><a href="#" class="deleteOption"><i class='bx bx-trash'></i> Delete</a></li>
-                        </ul>
-                    </div>
-                </div>
-                </div>
                 <?php endforeach;?>
-
             </div>
         </div>
-       </div>
-</div>
+        </div>
+        </div>
 
         <!-- <h2>Files</h2> -->
         <!-- Files table -->
@@ -214,6 +220,12 @@ foreach ($folders as $index => $folder):
                 <div class="header">
                     <i class='bx bx-receipt'></i>
                     <h3>List of Files</h3>
+
+                    <div class="right">
+                    <a id="view-integrated-data" href="folderCreation.php?folder=" style="display:none;">
+                        <button class="btn btn-success">View Integrated Data</button>
+                    </a>
+                    </div>
                 </div>
                 <table id="request-table" class="files-table">
                     <thead>
@@ -226,36 +238,38 @@ foreach ($folders as $index => $folder):
                         </tr>
                     </thead>
                     <tbody id="files-table-body">
-                <?php
-foreach ($folders as $folder) {
-    $folderId = $folder['id'];
+                        <?php
+                            foreach ($folders as $folder) {
+                                $folderId = $folder['id'];
 
-    $file_query = "SELECT f.name, f.description, fl.file_name, f.date_updated, f.file_path FROM fms_g14_files as f
-                                                JOIN fms_g14_inbound as i on i.files_id = f.id
-                                                join fms_g14_folder as fl on fl.id = f.folder_id
-                                                WHERE folder_id = ? AND i.status = 'Accepted'";
-    $file_stmt = mysqli_prepare($con, $file_query);
-    mysqli_stmt_bind_param($file_stmt, "i", $folderId);
-    mysqli_stmt_execute($file_stmt);
-    mysqli_stmt_bind_result($file_stmt, $file_name, $description, $folder_name, $date_updated, $file_path);
+                                $file_query = "SELECT f.name, f.description, fl.file_name, f.date_updated, f.file_path FROM fms_g14_files as f
+                                                                            JOIN fms_g14_inbound as i on i.files_id = f.id
+                                                                            join fms_g14_folder as fl on fl.id = f.folder_id
+                                                                            WHERE folder_id = ? AND i.status = 'Accepted'";
+                                $file_stmt = mysqli_prepare($con, $file_query);
+                                mysqli_stmt_bind_param($file_stmt, "i", $folderId);
+                                mysqli_stmt_execute($file_stmt);
+                                mysqli_stmt_bind_result($file_stmt, $file_name, $description, $folder_name, $date_updated, $file_path);
 
-    while (mysqli_stmt_fetch($file_stmt)) {
-        echo "<tr>";
-        echo "<td>" . $file_name . "</td>";
-        echo "<td>" . $folder_name . "</td>";
-        echo "<td>" . $description . "</td>";
-        echo "<td>" . $date_updated . "</td>";
-        echo "<td><a href='" . $file_path . "' target='_blank'><i class='bx bx-show'></i></a> <a href='" . $file_path . "' download><i class='bx bx-download'></i></a></td>";
-        echo "</tr>";
-    }
+                                while (mysqli_stmt_fetch($file_stmt)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $file_name . "</td>";
+                                    echo "<td>" . $folder_name . "</td>";
+                                    echo "<td>" . $description . "</td>";
+                                    echo "<td>" . $date_updated . "</td>";
+                                    echo "<td><a href='" . $file_path . "' target='_blank'><i class='bx bx-show'></i></a> <a href='" . $file_path . "' download><i class='bx bx-download'></i></a></td>";
+                                    echo "</tr>";
+                                }
 
-    mysqli_stmt_close($file_stmt);
-}
-?>
+                                mysqli_stmt_close($file_stmt);
+                            }
+                        ?>
                     </tbody>
                 </table>
             </div>
         </div>
+        
+        <br>
     </main>
 </div>
 
@@ -483,6 +497,9 @@ $('.downloadOption').click(function(event) {
 
         console.log("Folder ID:", folderId); // Debugging
 
+        // Update the href attribute of the anchor tag
+        $("#view-integrated-data").attr("href", "folderCreation.php?folder=" + folderId);
+
         // Clear the existing content of the folders container
         document.querySelector(".bottom-data").innerHTML = "";
 
@@ -573,6 +590,13 @@ $('.downloadOption').click(function(event) {
                     $(document).on("click", ".folder[data-folder-id]", function() {
                         handleFolderClick(this);
                     });
+                }
+
+                // Hide -view integrated data- button on parent folders
+                if (data.subfolders.length > 0) {
+                    $("#view-integrated-data").hide();
+                } else {
+                    $("#view-integrated-data").show();
                 }
             },
             error: function(xhr, status, error) {

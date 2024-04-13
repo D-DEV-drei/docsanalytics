@@ -1,8 +1,17 @@
 <?php
+// local
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "dmpar_db";
+$database = "sust_main";
+$port = 3306;
+
+// live
+// $host = "194.110.173.106";
+// $username = "sust_matthew";
+// $password = "qwe";
+// $database = "sust_main";
+// $port = 3306;
 
 // establish connection
 $con = mysqli_connect($host, $username, $password, $database);
@@ -11,3 +20,4 @@ $con = mysqli_connect($host, $username, $password, $database);
 if (!$con) {
     die("Connection failed: " . mysqli_connect_error()); // if connection failed, this will executed
 }
+?>
